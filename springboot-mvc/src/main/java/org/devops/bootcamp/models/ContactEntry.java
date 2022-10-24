@@ -14,7 +14,6 @@ public class ContactEntry {
     private Integer id;
     private String name;
     private String email;
-
     private String country;
 
     @Override
