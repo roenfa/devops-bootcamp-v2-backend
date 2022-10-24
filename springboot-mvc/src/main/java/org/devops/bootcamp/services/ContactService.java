@@ -1,6 +1,6 @@
 package org.devops.bootcamp.services;
 
-import org.devops.bootcamp.models.Contact;
+import org.devops.bootcamp.models.ContactEntry;
 import org.devops.bootcamp.repositories.ContactRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,24 +14,24 @@ public class ContactService {
     @Autowired
     private ContactRepository contactRepository;
 
-    public List<Contact> findAll() {
+    public List<ContactEntry> findAll() {
         return contactRepository.findAll();
     }
 
-    public Optional<Contact> findById(int id) {
+    public Optional<ContactEntry> findById(int id) {
         return contactRepository.findById(id);
     }
 
-    public Contact saveContact(Contact contact) {
-        return contactRepository.save(contact);
+    public ContactEntry saveContact(ContactEntry contactEntry) {
+        return contactRepository.save(contactEntry);
     }
 
-    public Contact updateContact(int id, Contact contact) {
-        Contact updatedContact = contactRepository.findById(id).orElse(null);
-        updatedContact.setName(contact.getName());
-        updatedContact.setEmail(contact.getEmail());
-        updatedContact.setCountry(contact.getCountry());
-        return contactRepository.save(updatedContact);
+    public ContactEntry updateContact(int id, ContactEntry contactEntry) {
+        ContactEntry updatedContactEntry = contactRepository.findById(id).orElse(null);
+        updatedContactEntry.setName(contactEntry.getName());
+        updatedContactEntry.setEmail(contactEntry.getEmail());
+        updatedContactEntry.setCountry(contactEntry.getCountry());
+        return contactRepository.save(updatedContactEntry);
     }
 
     public void deleteById(int id) {

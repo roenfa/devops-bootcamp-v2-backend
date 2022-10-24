@@ -8,18 +8,17 @@ import javax.persistence.*;
 @Setter
 @Getter
 @Entity
-public class Contact {
+public class ContactEntry {
     @Id
-    @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @Column
     private String name;
-
-    @Column
     private String email;
 
-    @Column
     private String country;
+
+    @Override
+    public String toString() {
+        return "ContactEntry [id=" + this.id + ", name=" + this.name + ", email=" + this.email + "]";
+    }
 }
