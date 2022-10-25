@@ -20,9 +20,8 @@ public class ContactController {
         ModelAndView mv= new ModelAndView();
         List<ContactEntry> entries= contactService.findAll();
         mv.addObject("entries", entries);
-        mv.setViewName("getAllContacts.jsp");
+        mv.setViewName("getAllContacts");
 
         return mv;
     }
-
 }
