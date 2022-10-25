@@ -13,8 +13,6 @@ public class ProductRepository {
     private int status;
 
     private List<Product> products = new ArrayList<Product>();
-    // dependencia con el servicio urlShortener -> obtener el link de la imagen de mi producto
-    // database connection mysql -> connection up or not?
 
     public int countByStatus(int status) {
         return status;
