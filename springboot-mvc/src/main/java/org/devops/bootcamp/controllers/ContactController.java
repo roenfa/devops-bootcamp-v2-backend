@@ -5,7 +5,9 @@ import org.devops.bootcamp.services.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -15,13 +17,25 @@ public class ContactController {
     @Autowired
     private ContactService contactService;
 
-    @RequestMapping("/getAllContacts")
+    @RequestMapping("/list-contacts")
     public ModelAndView getAllContactEntries() {
         ModelAndView mv= new ModelAndView();
-        List<ContactEntry> entries= contactService.findAll();
-        mv.addObject("entries", entries);
-        mv.setViewName("getAllContacts");
+        List<ContactEntry> contacts = contactService.findAll();
+        mv.addObject("contacts", contacts);
+        mv.setViewName("list-contacts");
 
         return mv;
+    }
+
+    @RequestMapping("/create-contact")
+    public String showCreateContactPage(Model model) {
+        model.addAttribute("command", new ContactEntry());
+        return "create-contact";
+    }
+
+    @RequestMapping(value = "/create-contact", method = RequestMethod.POST)
+    public String createContact(@ModelAttribute("contact") ContactEntry contact) {
+        contactService.saveContact(contact);
+        return "redirect:/list-contacts";
     }
 }
