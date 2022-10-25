@@ -17,6 +17,9 @@ repositories {
     mavenCentral()
 }
 
+sourceCompatibility = 1.18
+targetCompatibility = 1.18
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
