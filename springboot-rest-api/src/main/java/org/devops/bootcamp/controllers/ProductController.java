@@ -39,4 +39,17 @@ public class ProductController {
         return new ResponseEntity<>(product, httpHeaders, HttpStatus.CREATED);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Product> deleteProduct(@PathVariable("id") Integer id) {
+        Product product = productService.delete(id);
+        return new ResponseEntity<>(product, HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Product> updateProduct(@PathVariable("id") Integer id, @RequestBody Product p){
+        Product product = productService.update(id, p);
+        var httpHeaders = new HttpHeaders();
+        httpHeaders.add("product", "/api/v1/product/" + product.getProductId());
+        return new ResponseEntity<>(product, httpHeaders, HttpStatus.CREATED);
+    }
 }

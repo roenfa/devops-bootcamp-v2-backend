@@ -34,5 +34,16 @@ public class ProductRepository {
         return products;
     }
 
+    public Product delete(Product p) {
+        products.remove(p);
+        return p;
+    }
+
+    public Product update(Product productToEdit, Product p) {
+        int productIndex = products.indexOf(productToEdit);
+        products.set(productIndex, p);
+        return p;
+    }
+
 }
 

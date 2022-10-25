@@ -34,17 +34,28 @@ public class ProductServiceImpl implements Service<Product> {
 
     @Override
     public Product insert(Product p) {
-        productRepository.save(p);
-        return p;
+        return productRepository.save(p);
     }
 
     @Override
-    public void update(int id, Product p) {
+    public Product update(int id, Product p) {
+        Product productToUpdate = productRepository.getById(id);
+        Product productUpdated = null;
+        if (productToUpdate != null) {
+            productUpdated = productRepository.update(productToUpdate, p);
+         }
 
+        return productUpdated;
     }
 
     @Override
-    public void delete(int id) {
+    public Product delete(int id) {
+        Product product = productRepository.getById(id);
+        
+        if (product != null) {
+           product = productRepository.delete(product);
+        }
 
+        return product;
     }
 }
