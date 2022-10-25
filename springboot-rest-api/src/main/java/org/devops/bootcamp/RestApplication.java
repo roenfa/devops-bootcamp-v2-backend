@@ -17,7 +17,7 @@ public class RestApplication {
                 .description("Normal")
                 .price(6.5).build();
 
-        System.out.println(p.getName() + p.getDescription() + p.getPrice());
+//        System.out.println(p.getName() + p.getDescription() + p.getPrice());
 
     }
 
