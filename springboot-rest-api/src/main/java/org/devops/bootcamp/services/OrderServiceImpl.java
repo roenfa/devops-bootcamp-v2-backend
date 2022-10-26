@@ -32,16 +32,29 @@ public class OrderServiceImpl implements Service<Order> {
     }
 
     @Override
-    public Order insert(Order p) {
-        return orderRepository.save(p);
+    public Order insert(Order o) {
+        o.setTotal(
+            o.getProductList()
+            .stream()
+            .map(p -> p.getPrice())
+            .reduce(0.0, (a, b) -> a + b)
+        );
+
+        return orderRepository.save(o);
     }
 
     @Override
-    public Order update(int id, Order p) {
+    public Order update(int id, Order o) {
         Order orderToUpdate = orderRepository.getById(id);
         Order orderUpdated = null;
         if (orderToUpdate != null) {
-            orderUpdated = orderRepository.update(orderToUpdate, p);
+            o.setTotal(
+                o.getProductList()
+                .stream()
+                .map(p -> p.getPrice())
+                .reduce(0.0, (a, b) -> a + b)
+            );
+            orderUpdated = orderRepository.update(orderToUpdate, o);
          }
 
         return orderUpdated;
