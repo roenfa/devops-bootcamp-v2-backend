@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class ContactController {
@@ -37,6 +38,22 @@ public class ContactController {
     @RequestMapping(value = "/create-contact", method = RequestMethod.POST)
     public String createContact(@ModelAttribute("contact") ContactEntry contact) {
         contactService.saveContact(contact);
+        return "redirect:/list-contacts";
+    }
+
+    @RequestMapping(value = "/edit-contact/{id}", method = RequestMethod.GET)
+    public ModelAndView editContact(@PathVariable("id") Integer id, Model model){
+        ModelAndView mv = new ModelAndView();
+        Optional<ContactEntry> contactEntry = contactService.findById(id);
+        model.addAttribute("command", contactEntry);
+        mv.setViewName("edit-contact");
+        
+        return mv;
+    }
+
+    @RequestMapping(value = "/update-contact", method = RequestMethod.POST)
+    public String updateContact(@ModelAttribute("contact") ContactEntry contact){
+        contactService.updateContact(contact.getId(), contact);
         return "redirect:/list-contacts";
     }
 
