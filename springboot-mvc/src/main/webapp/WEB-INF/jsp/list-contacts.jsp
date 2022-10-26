@@ -8,7 +8,7 @@
         <th>Name</th>
         <th>Email</th>
         <th>Country</th>
-        <th>Update</th>
+        <th>Edit</th>
         <th>Delete</th>
     </tr>
     <c:forEach var="contact" items="${contacts}">
@@ -17,7 +17,7 @@
             <td>${contact.name}</td>
             <td>${contact.email}</td>
             <td>${contact.country}</td>
-            <td><a href="/update-contact/${contact.id}">Update</a></td>
+            <td><a href="/edit-contact/${contact.id}">Edit</a></td>
             <td><a href="/delete-contact/${contact.id}">Delete</a></td>
         </tr>
     </c:forEach>
