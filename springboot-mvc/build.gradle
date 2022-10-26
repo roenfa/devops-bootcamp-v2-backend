@@ -21,7 +21,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
-//    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: '2.7.5'
+    //implementation group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: '2.7.5'
     implementation 'javax.servlet:jstl'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'
