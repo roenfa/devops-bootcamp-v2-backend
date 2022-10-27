@@ -15,7 +15,8 @@ public class UrlShortenerHealthIndicator implements HealthIndicator {
     @Override
     public Health health() {
         try {
-            //estableciendo una conexion con nuestro servicio externo que nos devuelve "las ofertas de todos los productos en descuentos"
+            //estableciendo una conexion con nuestro servicio externo que nos devuelve "las ofertas de todos los
+            // productos en descuentos"
             URL siteUrl = new URL("https://www.google.com");
             HttpURLConnection connection = (HttpURLConnection) siteUrl.openConnection();
             connection.setRequestMethod("GET");

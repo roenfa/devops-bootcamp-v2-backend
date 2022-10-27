@@ -19,7 +19,7 @@ public class ProductRepositoryHealthContributor implements CompositeHealthContri
     public ProductRepositoryHealthContributor(UrlShortenerHealthIndicator urlShorterService)
     {
         indicators.put("urlShortener", urlShorterService);
-//        indicators.put("dbService", dbh);
+//        indicators.put("dbService", dbh); -> HOMEWORK
     }
 
     @Override
