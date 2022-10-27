@@ -34,7 +34,7 @@ public class ProductController {
     @PostMapping
     public ResponseEntity<Product> saveProduct(@RequestBody Product p) {
         Product product = productService.insert(p);
-        var httpHeaders = new HttpHeaders();
+        HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("product", "/api/v1/product/" + product.getProductId());
         return new ResponseEntity<>(product, httpHeaders, HttpStatus.CREATED);
     }
