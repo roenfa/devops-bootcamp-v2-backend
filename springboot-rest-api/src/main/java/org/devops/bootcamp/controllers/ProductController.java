@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -32,7 +33,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> saveProduct(@RequestBody Product p) {
+    public ResponseEntity<Product> saveProduct(@Valid @RequestBody Product p) {
         Product product = productService.insert(p);
         var httpHeaders = new HttpHeaders();
         httpHeaders.add("product", "/api/v1/product/" + product.getProductId());
