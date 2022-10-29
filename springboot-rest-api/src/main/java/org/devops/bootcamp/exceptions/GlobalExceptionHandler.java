@@ -28,18 +28,20 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntityBuilder.build(errorResponse);
     }
 
-    protected ResponseEntity<Object> handleMissingServletRequestParameterException(MissingServletRequestParameterException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        List<String> errorMessageList = new ArrayList<>();
+    @Override
+    protected ResponseEntity<Object> handleMissingServletRequestParameter(
+            MissingServletRequestParameterException ex, HttpHeaders headers,
+            HttpStatus status, WebRequest request) {
 
-        errorMessageList.add(ex.getParameterName() + " parameter is missing");
+        List<String> details = new ArrayList<String>();
+        details.add(ex.getParameterName() + " parameter is missing");
 
-//        errorMessageList.add(ex.getMessage());
-        final String errorMessage = "Validation Errors";
+        ErrorResponse err = new ErrorResponse(
+                "Missing Parameters" ,
+                HttpStatus.BAD_REQUEST,
+                details);
 
-        ErrorResponse errorResponse = new ErrorResponse(errorMessage, HttpStatus.BAD_REQUEST, errorMessageList);
-
-        headers.add("error", errorMessage);
-        return ResponseEntityBuilder.build(errorResponse);
+        return ResponseEntityBuilder.build(err);
     }
 
     @ExceptionHandler(NoSuchElementFoundException.class)

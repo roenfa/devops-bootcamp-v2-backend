@@ -13,7 +13,7 @@ import javax.validation.constraints.NotEmpty;
 @Builder
 public class Product {
     private int productId;
-    @NotEmpty(message="Please provide a product name")
+    @NonNull
     private String name;
     private String description;
     private double price;
