@@ -12,7 +12,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/product")
+@RequestMapping("/api/v1/products")
 public class ProductController {
     @Autowired
     private Service<Product> productService;
@@ -36,7 +36,7 @@ public class ProductController {
     public ResponseEntity<Product> saveProduct(@Valid @RequestBody Product p) {
         Product product = productService.insert(p);
         var httpHeaders = new HttpHeaders();
-        httpHeaders.add("product", "/api/v1/product/" + product.getProductId());
+        httpHeaders.add("product", "/api/v1/products/" + product.getProductId());
         return new ResponseEntity<>(product, httpHeaders, HttpStatus.CREATED);
     }
 

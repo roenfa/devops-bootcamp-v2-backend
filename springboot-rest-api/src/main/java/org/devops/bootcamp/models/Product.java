@@ -7,13 +7,14 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
 @Builder
 public class Product {
     private int productId;
-    @NonNull
+    @NotNull
     private String name;
     private String description;
     private double price;
