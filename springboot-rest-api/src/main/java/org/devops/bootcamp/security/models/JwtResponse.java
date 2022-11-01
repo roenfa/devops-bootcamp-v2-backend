@@ -2,6 +2,7 @@ package org.devops.bootcamp.security.models;
 
 import java.io.Serializable;
 
+//Creates the response object send to the client
 public class JwtResponse implements Serializable {
 
     private static final long serialVersionUID = -8091879091924046844L;

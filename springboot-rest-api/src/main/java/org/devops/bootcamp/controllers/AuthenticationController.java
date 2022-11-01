@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 
+// Authenticates username and password and generates a token
 @RestController
 @CrossOrigin
 public class AuthenticationController {
@@ -32,7 +33,7 @@ public class AuthenticationController {
     public ResponseEntity<?> generateAuthenticationToken(@RequestBody JwtRequest authenticationRequest)
             throws Exception {
 
-        authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+        this.authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
         final UserDetails userDetails = jwtInMemoryUserDetailsService
                 .loadUserByUsername(authenticationRequest.getUsername());

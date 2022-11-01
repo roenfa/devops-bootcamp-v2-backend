@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+//Executed for any incoming requests and validate JWT from request
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
