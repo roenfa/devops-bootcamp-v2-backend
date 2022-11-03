@@ -1,6 +1,7 @@
 package org.devops.bootcamp.services;
 
 
+import org.devops.bootcamp.exceptions.NoSuchElementFoundException;
 import org.devops.bootcamp.models.Product;
 import org.devops.bootcamp.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +22,26 @@ public class ProductServiceImpl implements Service<Product> {
         return productRepository.getAllProducts();
     }
 
+//    @Override
+//    public Product getById(int id) {
+//        Product product = null;
+//
+//        if (productRepository.getById(id) != null) {
+//           product = productRepository.getById(id);
+//        }
+//
+//        return product;
+//    }
     @Override
-    public Product getById(int id) {
+    public Product getById(int id) throws NoSuchElementFoundException {
         Product product = null;
-        
-        if (productRepository.getById(id) != null) {
-           product = productRepository.getById(id);
+
+        var messageError = "Product with id = " + id + " not found!!!";
+
+        if (productRepository.getById(id) == null) {
+            throw new NoSuchElementFoundException(messageError);
+        } else {
+            product = productRepository.getById(id);
         }
 
         return product;

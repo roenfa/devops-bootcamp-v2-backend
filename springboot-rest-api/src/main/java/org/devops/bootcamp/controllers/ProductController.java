@@ -8,10 +8,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/product")
+@RequestMapping("/api/v1/products")
 public class ProductController {
     @Autowired
     private Service<Product> productService;
@@ -32,7 +33,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> saveProduct(@RequestBody Product p) {
+    public ResponseEntity<Product> saveProduct(@Valid @RequestBody Product p) {
         Product product = productService.insert(p);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("product", "/api/v1/product/" + product.getProductId());
