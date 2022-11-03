@@ -16,7 +16,7 @@ public class LoggingServiceImpl implements LoggingService{
     @Override
     public void displayRequest(HttpServletRequest request, Object body) {
         StringBuilder reqMessage = new StringBuilder();
-        Map<String,String> parameters = getParameters(request);
+        Map<String,String> parameters = this.getParameters(request);
 
         reqMessage.append("REQUEST ");
         reqMessage.append("method = [").append(request.getMethod()).append("]");
@@ -30,13 +30,13 @@ public class LoggingServiceImpl implements LoggingService{
             reqMessage.append(" body = [").append(body).append("]");
         }
 
-        logger.info("log Request: {}", reqMessage);
+        logger.info("LOG REQUEST: {}", reqMessage);
     }
 
     @Override
     public void displayResponse(HttpServletRequest request, HttpServletResponse response, Object body) {
         StringBuilder respMessage = new StringBuilder();
-        Map<String,String> headers = getHeaders(response);
+        Map<String,String> headers = this.getHeaders(response);
         respMessage.append("RESPONSE ");
         respMessage.append(" method = [").append(request.getMethod()).append("]");
         if(!headers.isEmpty()) {
