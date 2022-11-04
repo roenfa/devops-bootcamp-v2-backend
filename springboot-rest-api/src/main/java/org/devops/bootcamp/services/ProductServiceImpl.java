@@ -36,7 +36,7 @@ public class ProductServiceImpl implements Service<Product> {
     public Product getById(int id) throws NoSuchElementFoundException {
         Product product = null;
 
-        var messageError = "Product with id = " + id + " not found!!!";
+        String messageError = "Product with id = " + id + " not found!!!";
 
         if (productRepository.getById(id) == null) {
             throw new NoSuchElementFoundException(messageError);
