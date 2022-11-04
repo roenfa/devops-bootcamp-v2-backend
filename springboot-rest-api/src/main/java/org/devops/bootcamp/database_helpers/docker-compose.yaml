@@ -1,0 +1,23 @@
+#docker-compose.yml
+#Command docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest
+version: '3.8'
+
+networks:
+  sql-server-net:
+    driver: bridge
+
+volumes:
+  sqlserver_volume:
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server
+    container_name: sqlserver2022_backend
+    environment:
+      ACCEPT_EULA: Y
+      MSSQL_SA_PASSWORD: $MSSQL_SA_PASSWORD
+      #MSSQL_PID: Express (default: Developer)
+    ports:
+      - 1433:1433
+    volumes:
+      - sqlserver_volume:/var/opt/mssql

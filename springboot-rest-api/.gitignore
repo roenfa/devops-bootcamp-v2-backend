@@ -1,0 +1,2 @@
+# Ignore global variables of Docker
+.env
