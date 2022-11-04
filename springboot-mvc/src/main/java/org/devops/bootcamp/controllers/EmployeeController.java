@@ -25,21 +25,20 @@ public class EmployeeController {
     @RequestMapping(value="/listEmployee", method= RequestMethod.GET)
     public String listEmployeeList(Model model) {
         List<Employee> employeeList = this.employeeService.findAll();
-
         model.addAttribute(ConstantVariable.EMPLOYEE_LIST, employeeList);
-
+        model.addAttribute("employee",new Employee());
         return "listEmployee";
     }
 
     /* Display add employee form page. */
     @RequestMapping(value="/addEmployeePage", method=RequestMethod.GET)
-    public String addEmployeePage() {
+    public String addEmployeePage(@ModelAttribute Employee employee) {
         return "addEmployee";
     }
 
-    /* Add user submitted employee info to h2 databae and redirect to list employees page. */
-    @RequestMapping(value ="/addEmployee", method = RequestMethod.POST)
-    public String addEmployee(@ModelAttribute("employee") Employee employee) {
+    /* Add user submitted employee info to h2 database and redirect to list employees page. */
+    @RequestMapping(value ="/addEmployeePage", method = RequestMethod.POST)
+    public String addEmployee(@ModelAttribute Employee employee) {
         employeeService.save(employee);
         return "redirect:/employee/listEmployee";
     }
