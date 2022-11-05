@@ -17,17 +17,60 @@ repositories {
     mavenCentral()
 }
 
-sourceCompatibility = 1.18
-targetCompatibility = 1.18
-
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-actuator
+    implementation 'org.springframework.boot:spring-boot-starter-actuator:2.7.5'
+
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security
+    implementation 'org.springframework.boot:spring-boot-starter-security:2.7.5'
+
+    // https://mvnrepository.com/artifact/org.springframework.security/spring-security-web
+    implementation 'org.springframework.security:spring-security-web:5.7.5'
+
+    // https://mvnrepository.com/artifact/org.springframework.security/spring-security-config
+    implementation 'org.springframework.security:spring-security-config:5.7.5'
+
+    // https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc
+    implementation 'com.microsoft.sqlserver:mssql-jdbc:11.2.0.jre11'
+
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-jdbc
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc:2.7.5'
+
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.7.5'
+
+    // // https://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.0-api
+    // implementation 'org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.1.Final'
+
+    // https://mvnrepository.com/artifact/org.hibernate/hibernate-entitymanager
+    implementation 'org.hibernate:hibernate-entitymanager:5.6.13.Final'
+
+    // https://mvnrepository.com/artifact/org.springframework/spring-orm
+    implementation 'org.springframework:spring-orm:5.3.23'
+
+    // https://mvnrepository.com/artifact/org.springframework/spring-tx
+    implementation 'org.springframework:spring-tx:5.3.23'
+}
+
+springBoot  {
+    buildInfo()
 }
 
 test {
     useJUnitPlatform()
+}
+
+tasks.named("bootRun") {
+    sourceResources sourceSets.main
+
+    systemProperty 'spring.datasource.url', findProperty('dbUrl')
+    systemProperty 'spring.datasource.user', findProperty('dbUser')
+    systemProperty 'spring.datasource.password', findProperty('dbPassword')
+    systemProperty 'spring.datasource.driverClassName', findProperty('dbDriverClass')
 }

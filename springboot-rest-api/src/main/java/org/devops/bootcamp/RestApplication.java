@@ -1,7 +1,7 @@
 package org.devops.bootcamp;
 
-import org.devops.bootcamp.models.Product;
-import org.devops.bootcamp.models.Order;
+// import org.devops.bootcamp.models.Product;
+// import org.devops.bootcamp.models.Order;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -12,18 +12,16 @@ public class RestApplication {
 
         SpringApplication.run(RestApplication.class, args);
 
-        Product p = Product.builder()
-                .productId(1)
-                .name("Milk")
-                .description("Normal")
-                .price(6.5).build();
+        // Product p = Product.builder()
+        //         .name("Milk")
+        //         .description("Normal")
+        //         .price(6.5).build();
         
-        Order o = Order.builder()
-                .orderId(1)
-                .total(100.0)
-                .client("Carlos")
-                .productList(null).build();
-//        System.out.println(p.getName() + p.getDescription() + p.getPrice());
+        // Order o = Order.builder()
+        //         .total(100.0)
+        //         .client("Carlos")
+        //         .productList(null).build();
+    //    System.out.println(p.getName() + p.getDescription() + p.getPrice());
 
     }
 

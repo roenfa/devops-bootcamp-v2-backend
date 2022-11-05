@@ -26,7 +26,7 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Order> getorder(@PathVariable("id") Integer id) {
+    public ResponseEntity<Order> getorder(@PathVariable("id") Long id) {
         Order order = orderService.getById(id);
         return new ResponseEntity<>(order, HttpStatus.OK);
     }
@@ -35,21 +35,21 @@ public class OrderController {
     public ResponseEntity<Order> saveorder(@RequestBody Order p) {
         Order order = orderService.insert(p);
         var httpHeaders = new HttpHeaders();
-        httpHeaders.add("order", "/api/v1/order/" + order.getOrderId());
+        httpHeaders.add("order", "/api/v1/order/" + order.getId());
         return new ResponseEntity<>(order, httpHeaders, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Order> deleteorder(@PathVariable("id") Integer id) {
+    public ResponseEntity<Order> deleteorder(@PathVariable("id") Long id) {
         Order order = orderService.delete(id);
         return new ResponseEntity<>(order, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Order> updateorder(@PathVariable("id") Integer id, @RequestBody Order p){
+    public ResponseEntity<Order> updateorder(@PathVariable("id") Long id, @RequestBody Order p){
         Order order = orderService.update(id, p);
         var httpHeaders = new HttpHeaders();
-        httpHeaders.add("order", "/api/v1/order/" + order.getOrderId());
+        httpHeaders.add("order", "/api/v1/order/" + order.getId());
         return new ResponseEntity<>(order, httpHeaders, HttpStatus.CREATED);
     }
 }

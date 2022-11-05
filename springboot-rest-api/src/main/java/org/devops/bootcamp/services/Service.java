@@ -5,11 +5,11 @@ import java.util.List;
 public interface Service<S>{
     List<S> getAll();
 
-    S getById(int id);
+    S getById(Long id);
 
     S insert(S p);
 
-    S update(int id, S p);
+    S update(Long id, S p);
 
-    S delete(int id);
+    S delete(Long id);
 }

@@ -6,6 +6,7 @@ import org.devops.bootcamp.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.ArrayList;
 
 @org.springframework.stereotype.Service
 public class ProductServiceImpl implements Service<Product> {
@@ -17,19 +18,18 @@ public class ProductServiceImpl implements Service<Product> {
 //    }
 
     @Override
-    public List getAll() {
-        return productRepository.getAllProducts();
+    public List<Product> getAll() {
+        var it = productRepository.findAll();
+        var orders = new ArrayList<Product>();
+        it.forEach(e -> orders.add(e));
+
+        return orders;
     }
 
     @Override
-    public Product getById(int id) {
-        Product product = null;
-        
-        if (productRepository.getById(id) != null) {
-           product = productRepository.getById(id);
-        }
-
-        return product;
+    public Product getById(Long id) {
+        Product p = productRepository.findById(id).get();
+        return p;
     }
 
     @Override
@@ -38,22 +38,22 @@ public class ProductServiceImpl implements Service<Product> {
     }
 
     @Override
-    public Product update(int id, Product p) {
-        Product productToUpdate = productRepository.getById(id);
+    public Product update(Long id, Product p) {
+        Product productToUpdate = productRepository.findById(id).get();
         Product productUpdated = null;
         if (productToUpdate != null) {
-            productUpdated = productRepository.update(productToUpdate, p);
+            productUpdated = productRepository.save(p);
          }
 
         return productUpdated;
     }
 
     @Override
-    public Product delete(int id) {
-        Product product = productRepository.getById(id);
+    public Product delete(Long id) {
+        Product product = productRepository.findById(id).get();
         
         if (product != null) {
-           product = productRepository.delete(product);
+           productRepository.delete(product);
         }
 
         return product;

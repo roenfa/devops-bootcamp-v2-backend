@@ -26,7 +26,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProduct(@PathVariable("id") Integer id) {
+    public ResponseEntity<Product> getProduct(@PathVariable("id") Long id) {
         Product product = productService.getById(id);
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
@@ -35,21 +35,21 @@ public class ProductController {
     public ResponseEntity<Product> saveProduct(@RequestBody Product p) {
         Product product = productService.insert(p);
         var httpHeaders = new HttpHeaders();
-        httpHeaders.add("product", "/api/v1/product/" + product.getProductId());
+        httpHeaders.add("product", "/api/v1/product/" + product.getId());
         return new ResponseEntity<>(product, httpHeaders, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Product> deleteProduct(@PathVariable("id") Integer id) {
+    public ResponseEntity<Product> deleteProduct(@PathVariable("id") Long id) {
         Product product = productService.delete(id);
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable("id") Integer id, @RequestBody Product p){
+    public ResponseEntity<Product> updateProduct(@PathVariable("id") Long id, @RequestBody Product p){
         Product product = productService.update(id, p);
         var httpHeaders = new HttpHeaders();
-        httpHeaders.add("product", "/api/v1/product/" + product.getProductId());
+        httpHeaders.add("product", "/api/v1/product/" + product.getId());
         return new ResponseEntity<>(product, httpHeaders, HttpStatus.CREATED);
     }
 }

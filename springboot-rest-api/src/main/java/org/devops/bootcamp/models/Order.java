@@ -1,21 +1,26 @@
 package org.devops.bootcamp.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import java.util.List;
+import java.util.Set;
+
+import javax.persistence.*;
+
+import lombok.*;
+
 
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Order {
-    private int orderId;
-    private double total;
+@Entity
+@Table(name = "orders")
+public class Order extends AbstractEntity {
+
     private String client;
-    private List<Product> productList;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "order_id")
+    private Set<OrderProduct> productList;
+
+    private Double total;
 }

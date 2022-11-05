@@ -1,6 +1,7 @@
 package org.devops.bootcamp.services;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import org.devops.bootcamp.models.Order;
 import org.devops.bootcamp.repositories.OrderRepository;
@@ -16,19 +17,18 @@ public class OrderServiceImpl implements Service<Order> {
 //    }
 
     @Override
-    public List getAll() {
-        return orderRepository.getAll();
+    public List<Order> getAll() {
+        var it = orderRepository.findAll();
+        var orders = new ArrayList<Order>();
+        it.forEach(e -> orders.add(e));
+
+        return orders;
     }
 
     @Override
-    public Order getById(int id) {
-        Order Order = null;
-        
-        if (orderRepository.getById(id) != null) {
-           Order = orderRepository.getById(id);
-        }
-
-        return Order;
+    public Order getById(Long id) {
+        Order o = orderRepository.findById(id).get();
+        return o;
     }
 
     @Override
@@ -36,7 +36,7 @@ public class OrderServiceImpl implements Service<Order> {
         o.setTotal(
             o.getProductList()
             .stream()
-            .map(p -> p.getPrice())
+            .map(p -> p.getPrice() * p.getAmount())
             .reduce(0.0, (a, b) -> a + b)
         );
 
@@ -44,28 +44,28 @@ public class OrderServiceImpl implements Service<Order> {
     }
 
     @Override
-    public Order update(int id, Order o) {
-        Order orderToUpdate = orderRepository.getById(id);
+    public Order update(Long id, Order o) {
+        Order orderToUpdate = orderRepository.findById(id).get();
         Order orderUpdated = null;
         if (orderToUpdate != null) {
             o.setTotal(
                 o.getProductList()
                 .stream()
-                .map(p -> p.getPrice())
+                .map(p -> p.getPrice() * p.getAmount())
                 .reduce(0.0, (a, b) -> a + b)
             );
-            orderUpdated = orderRepository.update(orderToUpdate, o);
+            orderUpdated = orderRepository.save(o);
          }
 
         return orderUpdated;
     }
 
     @Override
-    public Order delete(int id) {
-        Order order = orderRepository.getById(id);
+    public Order delete(Long id) {
+        Order order = orderRepository.findById(id).get();
         
         if (order != null) {
-           order = orderRepository.delete(order);
+           orderRepository.delete(order);
         }
 
         return order;
