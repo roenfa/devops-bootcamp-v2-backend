@@ -6,11 +6,15 @@ import lombok.Getter;
 import lombok.Setter;
 // import lombok.extern.jackson.Jacksonized;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 // import javax.validation.constraints.NotBlank;
 // import javax.validation.constraints.NotEmpty;
@@ -39,6 +43,9 @@ public class Product {
     @Column(name = "price")
     private double price;
 
+    @ManyToMany(mappedBy = "productList")
+    private List<Order> orderList = new ArrayList<>();
+
     public Product(){}
 
     public Product(String name, String description, double price){
@@ -55,8 +62,8 @@ public class Product {
     public String toString() {
         return "Product [name = "+getName()+ 
         " description = "+ getDescription()+
-        " price = "+getPrice()
-        +"]";
+        " price = "+getPrice()+
+        "]";
         // return super.toString();
     }
 }
