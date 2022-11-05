@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,9 +32,8 @@ public class ProductControllerJpa {
 
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProduct(@PathVariable("id") long id){
-        System.out.println("Long: "+id);
-        
         Optional<Product> productData = iProductRepository.findById(id);
+        
         if(productData.isPresent()){
             return new ResponseEntity<>(productData.get(), HttpStatus.OK);
         }else{
@@ -48,7 +48,24 @@ public class ProductControllerJpa {
                 .save(new Product(p.getName(), p.getDescription(), p.getPrice()));
             return new ResponseEntity<>(product, HttpStatus.CREATED);
         }catch (Exception exc){
+            System.out.println(exc.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Product> updateProduct(@PathVariable("id") long id, @RequestBody Product p){
+        Optional<Product> productData = iProductRepository.findById(id);
+
+        if(productData.isPresent()){
+            Product product = productData.get();
+            product.setName(p.getName());
+            product.setDescription(p.getDescription());
+            product.setPrice(p.getPrice());
+
+            return new ResponseEntity<>(iProductRepository.save(product), HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 }
