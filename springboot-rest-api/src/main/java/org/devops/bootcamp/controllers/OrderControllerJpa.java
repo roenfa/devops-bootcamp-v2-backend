@@ -10,6 +10,7 @@ import org.devops.bootcamp.repositories.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,6 +32,17 @@ public class OrderControllerJpa {
     @GetMapping
     public List<Order> getAll(){
         return iOrderRepository.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Order> getOrder(@PathVariable("id") long id){
+        Optional<Order> orderData = iOrderRepository.findById(id);
+
+        if(orderData.isPresent()){
+            return new ResponseEntity<>(orderData.get(), HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping
@@ -62,6 +74,17 @@ public class OrderControllerJpa {
             return new ResponseEntity<>(iOrderRepository.save(order), HttpStatus.OK);
         }else{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Order> orderDelete(@PathVariable long id){
+        try{
+            iOrderRepository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }catch(Exception exc){
+            System.out.println(exc.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
