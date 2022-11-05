@@ -1,14 +1,17 @@
 package org.devops.bootcamp.models;
 
-import java.math.BigDecimal;
-
 import javax.persistence.*;
 
 import lombok.*;
 
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -22,4 +25,3 @@ public class Product extends AbstractEntity {
     @Column(nullable = false)  
     private Double price;
 }
-

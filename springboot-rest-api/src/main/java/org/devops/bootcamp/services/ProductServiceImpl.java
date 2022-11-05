@@ -1,17 +1,22 @@
 package org.devops.bootcamp.services;
 
 
+import org.devops.bootcamp.exceptions.NoSuchElementFoundException;
 import org.devops.bootcamp.models.Product;
 import org.devops.bootcamp.repositories.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.ArrayList;
 
 @org.springframework.stereotype.Service
 public class ProductServiceImpl implements Service<Product> {
-    @Autowired
-    ProductRepository productRepository;
+//    @Autowired -> @InjectMock
+//    ProductRepository productRepository;
+    private ProductRepository productRepository;
+    public ProductServiceImpl(ProductRepository repository) {
+        this.productRepository = repository;
+    }
 
 //    public ProductServiceImpl(ProductRepository productRepository) {
 //        this.productRepository = productRepository;
@@ -26,15 +31,35 @@ public class ProductServiceImpl implements Service<Product> {
         return orders;
     }
 
+//    @Override
+//    public Product getById(int id) {
+//        Product product = null;
+//
+//        if (productRepository.getById(id) != null) {
+//           product = productRepository.getById(id);
+//        }
+//
+//        return product;
+//    }
     @Override
-    public Product getById(Long id) {
-        Product p = productRepository.findById(id).get();
-        return p;
+    public Product getById(Long id) throws NoSuchElementFoundException {
+        Product product = null;
+
+        var messageError = "Product with id = " + id + " not found!!!";
+
+        if (productRepository.findById(id) == null) {
+            throw new NoSuchElementFoundException(messageError);
+        } else {
+            product = productRepository.findById(id).get();
+        }
+
+        return product;
     }
 
     @Override
     public Product insert(Product p) {
-        return productRepository.save(p);
+        this.productRepository.save(p);
+        return p;
     }
 
     @Override
