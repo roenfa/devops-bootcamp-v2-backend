@@ -54,7 +54,10 @@ public class OrderControllerJpa {
         Optional<Product> productData = iProductRepository.findById(productId);
         if(orderData.isPresent() && productData.isPresent()){
             Order order = orderData.get();
-            order.products(productData.get());
+            Product product = productData.get();
+            order.products(product);
+            double orderTotal = order.getTotal() + product.getPrice();
+            order.setTotal(orderTotal);
 
             return new ResponseEntity<>(iOrderRepository.save(order), HttpStatus.OK);
         }else{
