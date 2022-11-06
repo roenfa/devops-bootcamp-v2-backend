@@ -25,7 +25,6 @@ public class RestApplication {
     @Transactional
     CommandLineRunner commandLineRunner(ProductService productService){
         return args -> {
-            System.out.println(productService.getAll());
         };
     }
 

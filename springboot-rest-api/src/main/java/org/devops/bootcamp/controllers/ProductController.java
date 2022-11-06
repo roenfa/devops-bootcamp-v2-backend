@@ -17,9 +17,6 @@ public class ProductController {
     @Autowired
     private Service<Product> productService;
 
-//    public ProductController(Service productService) {
-//        this.productService = productService;
-//    }
 
     @GetMapping
     public List<Product> getAll() {
@@ -38,6 +35,12 @@ public class ProductController {
         var httpHeaders = new HttpHeaders();
         httpHeaders.add("product", "/api/v1/products/" + product.getProductId());
         return new ResponseEntity<>(product, httpHeaders, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Product> deleteProduct(@PathVariable("id") Integer id){
+        this.productService.delete(id);
+        return ResponseEntity.accepted().build();
     }
 
 }
