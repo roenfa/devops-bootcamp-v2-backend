@@ -14,13 +14,18 @@ import java.util.List;
 public class Order {
 
     @Id
-    @GeneratedValue( strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer orderId;
 
+    @Getter(AccessLevel.NONE)
     private double total;
+
     private String client;
 
-    @OneToMany(mappedBy = "productId", fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     private List<Product> productList;
 
+    public double getTotal() {
+        return this.productList.stream().reduce(0.0, (acc, product) -> acc + product.getPrice(), Double::sum);
+    }
 }
