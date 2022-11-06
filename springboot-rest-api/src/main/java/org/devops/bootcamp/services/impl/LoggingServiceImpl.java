@@ -1,5 +1,6 @@
-package org.devops.bootcamp.services;
+package org.devops.bootcamp.services.impl;
 
+import org.devops.bootcamp.services.LoggingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -9,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 @Service
-public class LoggingServiceImpl implements LoggingService{
+public class LoggingServiceImpl implements LoggingService {
 
     Logger logger = LoggerFactory.getLogger("LoggingServiceImpl");
 

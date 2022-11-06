@@ -1,40 +1,31 @@
-package org.devops.bootcamp.services;
+package org.devops.bootcamp.services.impl;
 
 
 import org.devops.bootcamp.exceptions.NoSuchElementFoundException;
 import org.devops.bootcamp.models.Product;
+import org.devops.bootcamp.repositories.ProductRepository;
 import org.devops.bootcamp.repositories.impl.ProductRepositoryImpl;
+import org.devops.bootcamp.services.ProductService;
+import org.devops.bootcamp.services.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 @org.springframework.stereotype.Service
-public class ProductServiceImpl implements Service<Product> {
-//    @Autowired -> @InjectMock
-//    ProductRepository productRepository;
-    private ProductRepositoryImpl productRepository;
-    public ProductServiceImpl(ProductRepositoryImpl repository) {
-        this.productRepository = repository;
-    }
+public class ProductServiceImpl implements ProductService {
 
-//    public ProductServiceImpl(ProductRepository productRepository) {
-//        this.productRepository = productRepository;
-//    }
+    private ProductRepository productRepository;
+
+    @Autowired
+    public ProductServiceImpl(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
     @Override
     public List getAll() {
         return productRepository.getAll();
     }
 
-//    @Override
-//    public Product getById(int id) {
-//        Product product = null;
-//
-//        if (productRepository.getById(id) != null) {
-//           product = productRepository.getById(id);
-//        }
-//
-//        return product;
-//    }
     @Override
     public Product getById(int id) throws NoSuchElementFoundException {
         Product product = null;
@@ -58,10 +49,12 @@ public class ProductServiceImpl implements Service<Product> {
 
     @Override
     public void update(int id, Product p) {
-
+        this.productRepository.save(p);
     }
 
     @Override
     public void delete(int id) {
+        this.productRepository.delete(this.productRepository.getById(id));
     }
+
 }
