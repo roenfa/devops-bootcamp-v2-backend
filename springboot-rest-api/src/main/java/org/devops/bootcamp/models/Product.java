@@ -20,6 +20,8 @@ import javax.persistence.Table;
 // import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Getter
 @Setter
 // @Builder
@@ -43,6 +45,7 @@ public class Product {
     @Column(name = "price")
     private double price;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "productList")
     private List<Order> orderList = new ArrayList<>();
 
