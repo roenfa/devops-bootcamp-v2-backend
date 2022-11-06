@@ -60,8 +60,13 @@ public class Order {
         return this.order_id;
     }
 
-    public void products(Product p){
+    public void setProductsList(Product p){
         productList.add(p);
+    }
+
+    // TODO getting products of order
+    public List<Product> getProductsList(){
+        return this.productList;
     }
 
     @Override

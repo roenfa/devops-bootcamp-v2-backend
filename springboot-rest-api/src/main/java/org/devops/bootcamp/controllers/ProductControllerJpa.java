@@ -22,9 +22,6 @@ import org.devops.bootcamp.models.Product;
 @RequestMapping("/api/v2/products")
 public class ProductControllerJpa {
     
-    // @Autowired
-    // IProductRepository iProductRepository;
-
     @Autowired
     ProductServiceJpa productServiceJpa;
 
@@ -61,12 +58,7 @@ public class ProductControllerJpa {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Product> deleteProduct(@PathVariable("id") long id){
-        try{
-            productServiceJpa.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }catch(Exception exc){
-            System.out.println(exc.getMessage());
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        productServiceJpa.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

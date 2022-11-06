@@ -1,12 +1,11 @@
 package org.devops.bootcamp.controllers;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.devops.bootcamp.models.Order;
 import org.devops.bootcamp.models.Product;
-import org.devops.bootcamp.repositories.IOrderRepository;
-import org.devops.bootcamp.repositories.IProductRepository;
+import org.devops.bootcamp.services_jpa.OrderServiceJpa;
+import org.devops.bootcamp.services_jpa.ProductServiceJpa;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,32 +23,26 @@ import org.springframework.web.bind.annotation.RestController;
 public class OrderControllerJpa {
     
     @Autowired
-    IOrderRepository iOrderRepository;
+    OrderServiceJpa orderServiceJpa;
 
     @Autowired
-    IProductRepository iProductRepository;
+    ProductServiceJpa productServiceJpa;
 
     @GetMapping
     public List<Order> getAll(){
-        return iOrderRepository.findAll();
+        return orderServiceJpa.findAll();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Order> getOrder(@PathVariable("id") long id){
-        Optional<Order> orderData = iOrderRepository.findById(id);
-
-        if(orderData.isPresent()){
-            return new ResponseEntity<>(orderData.get(), HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        Order order = orderServiceJpa.getById(id);
+        return new ResponseEntity<>(order, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<Order> saveOrder(@RequestBody Order o){
         try{
-            Order order = iOrderRepository
-                .save(new Order(o.getTotal(), o.getClient()));
+            Order order = orderServiceJpa.save(o);
             return new ResponseEntity<>(order, HttpStatus.CREATED);
         }catch(Exception exc){
             System.out.println(exc.getMessage());
@@ -62,29 +55,27 @@ public class OrderControllerJpa {
         @PathVariable Long orderId,
         @PathVariable Long productId
     ){
-        Optional<Order> orderData = iOrderRepository.findById(orderId);
-        Optional<Product> productData = iProductRepository.findById(productId);
-        if(orderData.isPresent() && productData.isPresent()){
-            Order order = orderData.get();
-            Product product = productData.get();
-            order.products(product);
-            double orderTotal = order.getTotal() + product.getPrice();
-            order.setTotal(orderTotal);
+        
+        Order order = orderServiceJpa.getById(orderId);
+        Product product = productServiceJpa.getById(productId);
+        order.setProductsList(product);
+        double orderTotal = order.getTotal() + product.getPrice();
+        order.setTotal(orderTotal);
 
-            return new ResponseEntity<>(iOrderRepository.save(order), HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(orderServiceJpa.save(order), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Order> orderDelete(@PathVariable long id){
-        try{
-            iOrderRepository.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }catch(Exception exc){
-            System.out.println(exc.getMessage());
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        orderServiceJpa.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    // TODO list of products by order id 
+    @GetMapping("/{id}/products")
+    public ResponseEntity<List<Product>> orderProducts(@PathVariable long id){
+        List<Product> products = orderServiceJpa.getProductsFromOrder(id);
+            
+        return new ResponseEntity<>(products, HttpStatus.OK);
     }
 }

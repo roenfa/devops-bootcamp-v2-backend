@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import org.devops.bootcamp.exceptions.InternalServerErrorException;
 import org.devops.bootcamp.exceptions.NoSuchElementFoundException;
 import org.devops.bootcamp.models.Product;
 import org.devops.bootcamp.repositories.IProductRepository;
@@ -42,7 +43,13 @@ public class ProductServiceJpa implements ServiceJpa<Product> {
     }
 
     @Override
-    public void deleteById(long id) {
-        iProductRepository.deleteById(id);
+    public void deleteById(long id) throws InternalServerErrorException {
+        try {
+            iProductRepository.deleteById(id);
+        } catch (Exception e) {
+            String messageError = "Product couldn't be deleted!";
+
+            throw new InternalServerErrorException(messageError);
+        }
     }
 }

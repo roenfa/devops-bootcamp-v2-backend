@@ -3,6 +3,8 @@ package org.devops.bootcamp.services_jpa;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.devops.bootcamp.exceptions.InternalServerErrorException;
+
 public interface ServiceJpa<S> {
     List<S> findAll();
     
@@ -10,5 +12,5 @@ public interface ServiceJpa<S> {
 
     S save(S s);
 
-    void deleteById(long id);
+    void deleteById(long id) throws InternalServerErrorException;
 }
