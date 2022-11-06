@@ -5,9 +5,11 @@ import org.devops.bootcamp.models.Order;
 import org.devops.bootcamp.repositories.OrderRepository;
 import org.devops.bootcamp.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class OrderServiceImpl implements OrderService {
 
     private OrderRepository orderRepository;
