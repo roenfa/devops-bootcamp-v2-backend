@@ -13,6 +13,8 @@ DROP TABLE IF EXISTS dbo.orders
 GO
 DROP TABLE IF EXISTS dbo.products 
 GO
+DROP TABLE IF EXISTS dbo.users 
+GO
 
 CREATE TABLE dbo.orders(
     order_id BIGINT PRIMARY KEY IDENTITY(1,1),
@@ -32,5 +34,13 @@ CREATE TABLE dbo.order_product(
     product_id BIGINT,
     FOREIGN KEY (order_id) REFERENCES dbo.orders(order_id),
     FOREIGN KEY (product_id) REFERENCES dbo.products(product_id)
+)
+GO
+CREATE TABLE dbo.users(
+    user_id BIGINT PRIMARY KEY IDENTITY(1,1),
+    username VARCHAR(45) UNIQUE,
+    "password" VARCHAR(64),
+    "role" VARCHAR(45)
+    -- "enabled" TINYINT(4)
 )
 GO
