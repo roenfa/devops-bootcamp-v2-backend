@@ -49,6 +49,11 @@ dependencies {
 
     // https://mvnrepository.com/artifact/org.eclipse.persistence/javax.persistence
     implementation group: 'org.eclipse.persistence', name: 'javax.persistence', version: '2.2.1'
+    // https://mvnrepository.com/artifact/org.springframework.security/spring-security-test
+    testImplementation 'org.springframework.security:spring-security-test:5.7.5'
+
+    // https://mvnrepository.com/artifact/org.springframework.security/spring-security-test
+    testImplementation 'org.springframework.security:spring-security-test:5.3.13.RELEASE'
 }
 
 test {

@@ -10,8 +10,12 @@ import java.util.List;
 
 @org.springframework.stereotype.Service
 public class ProductServiceImpl implements Service<Product> {
-    @Autowired
-    ProductRepository productRepository;
+//    @Autowired -> @InjectMock
+//    ProductRepository productRepository;
+    private ProductRepository productRepository;
+    public ProductServiceImpl(ProductRepository repository) {
+        this.productRepository = repository;
+    }
 
 //    public ProductServiceImpl(ProductRepository productRepository) {
 //        this.productRepository = productRepository;
@@ -49,7 +53,7 @@ public class ProductServiceImpl implements Service<Product> {
 
     @Override
     public Product insert(Product p) {
-        productRepository.save(p);
+        this.productRepository.save(p);
         return p;
     }
 
@@ -60,6 +64,5 @@ public class ProductServiceImpl implements Service<Product> {
 
     @Override
     public void delete(int id) {
-
     }
 }
