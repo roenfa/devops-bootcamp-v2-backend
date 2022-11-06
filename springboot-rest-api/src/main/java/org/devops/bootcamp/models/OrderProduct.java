@@ -1,8 +1,9 @@
 package org.devops.bootcamp.models;
 
-import java.math.BigDecimal;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.*;
 
@@ -11,6 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@JsonIgnoreProperties(value= {"suppliers"})
 @Table(name = "order_product")
 public class OrderProduct extends AbstractEntity {
     @ManyToOne

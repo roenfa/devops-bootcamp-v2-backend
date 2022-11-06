@@ -83,4 +83,5 @@ tasks.named("bootRun") {
     systemProperty 'spring.datasource.user', findProperty('dbUser')
     systemProperty 'spring.datasource.password', findProperty('dbPassword')
     systemProperty 'spring.datasource.driverClassName', findProperty('dbDriverClass')
+    systemProperty 'jwt.secret', findProperty('jwtSecret')
 }

@@ -36,7 +36,7 @@ public class ProductController {
     public ResponseEntity<Product> saveProduct(@Valid @RequestBody Product p) {
         Product product = productService.insert(p);
         var httpHeaders = new HttpHeaders();
-        httpHeaders.add("product", "/api/v1/product/" + product.getId());
+        httpHeaders.add("product", "/api/v1/products/" + product.getId());
         return new ResponseEntity<>(product, httpHeaders, HttpStatus.CREATED);
     }
 
@@ -50,7 +50,7 @@ public class ProductController {
     public ResponseEntity<Product> updateProduct(@PathVariable("id") Long id, @RequestBody Product p){
         Product product = productService.update(id, p);
         var httpHeaders = new HttpHeaders();
-        httpHeaders.add("product", "/api/v1/product/" + product.getId());
+        httpHeaders.add("product", "/api/v1/products/" + product.getId());
         return new ResponseEntity<>(product, httpHeaders, HttpStatus.CREATED);
     }
 }

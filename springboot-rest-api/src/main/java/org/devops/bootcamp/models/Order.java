@@ -19,7 +19,7 @@ public class Order extends AbstractEntity {
 
     private String client;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "order_id")
     private Set<OrderProduct> productList;
 
