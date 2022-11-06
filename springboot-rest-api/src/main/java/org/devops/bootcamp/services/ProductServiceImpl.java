@@ -3,8 +3,7 @@ package org.devops.bootcamp.services;
 
 import org.devops.bootcamp.exceptions.NoSuchElementFoundException;
 import org.devops.bootcamp.models.Product;
-import org.devops.bootcamp.repositories.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.devops.bootcamp.repositories.impl.ProductRepositoryImpl;
 
 import java.util.List;
 
@@ -12,8 +11,8 @@ import java.util.List;
 public class ProductServiceImpl implements Service<Product> {
 //    @Autowired -> @InjectMock
 //    ProductRepository productRepository;
-    private ProductRepository productRepository;
-    public ProductServiceImpl(ProductRepository repository) {
+    private ProductRepositoryImpl productRepository;
+    public ProductServiceImpl(ProductRepositoryImpl repository) {
         this.productRepository = repository;
     }
 
@@ -23,7 +22,7 @@ public class ProductServiceImpl implements Service<Product> {
 
     @Override
     public List getAll() {
-        return productRepository.getAllProducts();
+        return productRepository.getAll();
     }
 
 //    @Override
