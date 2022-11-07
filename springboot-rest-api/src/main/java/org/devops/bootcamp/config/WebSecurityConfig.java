@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -18,6 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 // Extends the WebSecurityConfigurerAdapter and enables WebSecurity and HTTPSecurity to be customized
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
@@ -51,11 +53,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         // We don't need CSRF for this example
         httpSecurity.csrf().disable()
-                // dont authenticate this particular request
+                // do not authenticate this particular request
                 .authorizeRequests().antMatchers("/authenticate").permitAll().antMatchers(HttpMethod.OPTIONS, "/**")
                 .permitAll().
                 // all other requests need to be authenticated
-                        anyRequest().permitAll().and().
+                        anyRequest().authenticated().and().
                 // make sure we use stateless session; session won't be used to
                 // store user's state.
                         exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
@@ -65,13 +67,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
-// CROSS-SITE REQUEST FORGERY CSRF
-//    POST /transfer
-//    amount=4000&routingNumber=789456&account=456
-//    cookie: xtoken=45467812134548
-//
-//    <form method="post">
-//        <input name="amount" value="5000">
-//        <input name="account" value="123">
-//    </form>
 }

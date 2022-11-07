@@ -26,6 +26,11 @@ public class Order {
     private List<Product> productList;
 
     public double getTotal() {
-        return this.productList.stream().reduce(0.0, (acc, product) -> acc + product.getPrice(), Double::sum);
+        return this.productList
+                .stream()
+                .reduce(
+                        0.0, (acc, product) -> acc + product.getPrice(), Double::sum
+                );
     }
+
 }

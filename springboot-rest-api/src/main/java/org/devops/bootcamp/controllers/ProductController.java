@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -35,12 +36,6 @@ public class ProductController {
         var httpHeaders = new HttpHeaders();
         httpHeaders.add("product", "/api/v1/products/" + product.getProductId());
         return new ResponseEntity<>(product, httpHeaders, HttpStatus.CREATED);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Product> deleteProduct(@PathVariable("id") Integer id){
-        this.productService.delete(id);
-        return ResponseEntity.accepted().build();
     }
 
 }

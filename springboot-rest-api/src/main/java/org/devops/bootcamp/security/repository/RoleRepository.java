@@ -1,2 +1,8 @@
-package org.devops.bootcamp.security.repository;public interface RoleRepository {
+package org.devops.bootcamp.security.repository;
+
+
+import org.devops.bootcamp.security.models.Role;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface RoleRepository extends JpaRepository<Role, String>{
 }
