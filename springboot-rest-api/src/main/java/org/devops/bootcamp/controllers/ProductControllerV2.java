@@ -25,7 +25,7 @@ public class ProductControllerV2 {
     }
 
     @GetMapping(path = "/{id}")
-    public Optional<Product> obtenerPorId(@PathVariable("id") Integer id){
+    public Optional<Product> getProductById(@PathVariable("id") Integer id){
         return productServiceV2.getById(id);
     }
 
