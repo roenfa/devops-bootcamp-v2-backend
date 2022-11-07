@@ -20,6 +20,8 @@ public class Employee {
 
     private String userName;
 
+    private String password;
+
     private String email;
 
     private String gender;
@@ -27,4 +29,9 @@ public class Employee {
     private int age;
 
     private long salary;
+
+    @Override
+    public String toString() {
+        return "EmployeeEntry [id=" + this.id + ", username=" + this.userName +", password=" + this.password + ", email=" + this.email + ", gender=" + this.gender +", age=" + this.age +", salary=" + this.salary +"]";
+    }
 }
