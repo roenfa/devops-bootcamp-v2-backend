@@ -1,6 +1,6 @@
 package org.devops.bootcamp.actuators;
 
-import org.devops.bootcamp.repositories.ProductRepository;
+import org.devops.bootcamp.repositories.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.info.Info;
 import org.springframework.boot.actuate.info.InfoContributor;
@@ -12,7 +12,7 @@ import java.util.Map;
 @Component("productInfoContributor")
 public class ProductRepositoryInfoContributor implements InfoContributor {
     @Autowired
-    ProductRepository productRepository;
+    IProductRepository productRepository;
 
     @Override
     public void contribute(Info.Builder builder) {
