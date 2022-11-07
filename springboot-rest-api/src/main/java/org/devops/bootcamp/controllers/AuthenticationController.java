@@ -1,8 +1,10 @@
 package org.devops.bootcamp.controllers;
 
 import org.devops.bootcamp.config.JwtTokenUtil;
+import org.devops.bootcamp.models.User;
 import org.devops.bootcamp.security.models.JwtRequest;
 import org.devops.bootcamp.security.models.JwtResponse;
+import org.devops.bootcamp.services.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,6 +13,7 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
@@ -28,6 +31,12 @@ public class AuthenticationController {
 
     @Autowired
     private UserDetailsService jwtInMemoryUserDetailsService;
+
+    @Autowired
+    private UserServiceImpl userService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> generateAuthenticationToken(@RequestBody JwtRequest authenticationRequest)
@@ -54,4 +63,19 @@ public class AuthenticationController {
             throw new Exception("INVALID_CREDENTIALS", e);
         }
     }
+
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public ResponseEntity<?> saveUser(@RequestBody User user) throws Exception {
+        try {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            userService.insert(user);
+        } catch (Exception e) {
+            throw new Exception("Error registering user");
+        }
+        return ResponseEntity.ok(user);
+    }
+
+
 }
+//SQL remove row where id is 1
+//DELETE FROM users WHERE id = 1;
