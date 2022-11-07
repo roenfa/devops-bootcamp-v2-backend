@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -26,7 +27,7 @@ public class OrderController {
         return new ResponseEntity<>(order, HttpStatus.OK);
     }
     @PostMapping
-    public ResponseEntity<Order> saveOrder(@RequestBody Order o){
+    public ResponseEntity<Order> saveOrder(@Valid @RequestBody Order o){
         Order order = orderService.insert(o);
         var httpHeaders = new HttpHeaders();
         httpHeaders.add("order","api/v1/orders"+ order.getOrderId());

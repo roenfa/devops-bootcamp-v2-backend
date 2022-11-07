@@ -16,10 +16,10 @@ public class ProductRepositoryHealthContributor implements CompositeHealthContri
     private Map<String, HealthContributor> indicators = new LinkedHashMap<>();
 
     @Autowired
-    public ProductRepositoryHealthContributor(UrlShortenerHealthIndicator urlShorterService)
+    public ProductRepositoryHealthContributor(UrlShortenerHealthIndicator urlShorterService, dbConnectionHealthIndicator dbService)
     {
         indicators.put("urlShortener", urlShorterService);
-//        indicators.put("dbService", dbh); -> HOMEWORK
+        indicators.put("dbService", dbService);
     }
 
     @Override
