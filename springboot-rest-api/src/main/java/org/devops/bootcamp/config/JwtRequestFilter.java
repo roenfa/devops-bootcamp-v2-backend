@@ -1,6 +1,9 @@
 package org.devops.bootcamp.config;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import org.devops.bootcamp.security.services.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,6 +21,8 @@ import java.io.IOException;
 
 //Executed for any incoming requests and validate JWT from request
 @Component
+@NoArgsConstructor
+@AllArgsConstructor
 public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Autowired

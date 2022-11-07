@@ -16,6 +16,8 @@ import lombok.*;
 @Table(name = "orders")
 public class Order extends AbstractEntity {
 
+    private Long id = super.getId();
+
     private String client;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)

@@ -2,50 +2,33 @@ package org.devops.bootcamp.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.devops.bootcamp.ApplicationConfig;
 import org.devops.bootcamp.models.Product;
 import org.devops.bootcamp.services.Service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
-import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.*;
 
 import java.util.Arrays;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import static org.mockito.Mockito.*;
 
-@WebMvcTest(
-        controllers = ProductController.class,
-        excludeAutoConfiguration = {
-                UserDetailsServiceAutoConfiguration.class, SecurityAutoConfiguration.class
-        }
-)
+
+@SpringBootTest
+@AutoConfigureMockMvc
 public class ProductControllerTests {
     final String productJsonString = "{\"name\":\"Oreo\",\"description\":\"cookies\",\"price\":3.5}";
 
@@ -58,24 +41,27 @@ public class ProductControllerTests {
     @Autowired
     private MockMvc mockMvc;
 
+    private final Long id = 1L;
+
     @BeforeEach
     public void setUp() {
         given(this.productService.getAll())
                 .willReturn(
                         Arrays.asList(
-                                Product.builder().name("oreo").description("cookies").price(3.5).build(),
-                                Product.builder().name("milk").description("drink").price(6.5).build()
+                                Product.builder().id(id).name("oreo").description("cookies").price(3.5).build(),
+                                Product.builder().id(id).name("milk").description("drink").price(6.5).build()
                         ));
 
         given(this.productService.insert(any(Product.class)))
-                .willReturn(Product.builder().name("oreo").description("cookies").price(3.5).build());
+                .willReturn(Product.builder().id(id).name("oreo").description("cookies").price(3.5).build());
 
-        doNothing().when(this.productService).delete(any(Long.class));
     }
 
     @Test
+    @WithMockUser
     public void createProduct() throws Exception {
         Product productMock = Product.builder()
+                .id(id)
                 .name("Oreo")
                 .description("cookies")
                 .price(3.5).build();
@@ -94,10 +80,11 @@ public class ProductControllerTests {
 
         assertEquals(HttpStatus.CREATED.value(), response.getStatus());
 
-        assertEquals("http://localhost:8080/api/v1/products", response.getHeader(HttpHeaders.LOCATION));
+        assertEquals("/api/v1/products/1", response.getHeader("product"));
     }
 
     @Test
+    @WithMockUser
     public void testSave() throws Exception {
 
         this.mockMvc

@@ -17,6 +17,8 @@ import lombok.*;
 @Entity
 @Table(name = "products")
 public class Product extends AbstractEntity {
+
+    private Long id = super.getId();
     
     @Column(nullable = false)
     private String name;

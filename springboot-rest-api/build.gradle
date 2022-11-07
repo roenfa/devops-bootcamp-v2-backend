@@ -70,18 +70,28 @@ dependencies {
 
     // https://mvnrepository.com/artifact/org.springframework.security/spring-security-test
     testImplementation 'org.springframework.security:spring-security-test:5.3.13.RELEASE'
+
+    // https://mvnrepository.com/artifact/org.springframework.ldap/spring-ldap-core
+    implementation 'org.springframework.ldap:spring-ldap-core:2.4.1'
+
+    // https://mvnrepository.com/artifact/org.springframework.security/spring-security-ldap
+    implementation 'org.springframework.security:spring-security-ldap:5.7.5'
+
+    // https://mvnrepository.com/artifact/com.unboundid/unboundid-ldapsdk
+    implementation 'com.unboundid:unboundid-ldapsdk'
+
 }
 
 test {
     useJUnitPlatform()
 }
 
-tasks.named("bootRun") {
-    sourceResources sourceSets.main
+// tasks.named("bootRun") {
+//     sourceResources sourceSets.main
 
-    systemProperty 'spring.datasource.url', findProperty('dbUrl')
-    systemProperty 'spring.datasource.user', findProperty('dbUser')
-    systemProperty 'spring.datasource.password', findProperty('dbPassword')
-    systemProperty 'spring.datasource.driverClassName', findProperty('dbDriverClass')
-    systemProperty 'jwt.secret', findProperty('jwtSecret')
-}
+//     systemProperty 'spring.datasource.url', findProperty('dbUrl')
+//     systemProperty 'spring.datasource.user', findProperty('dbUser')
+//     systemProperty 'spring.datasource.password', findProperty('dbPassword')
+//     systemProperty 'spring.datasource.driverClassName', findProperty('dbDriverClass')
+//     systemProperty 'jwt.secret', findProperty('jwtSecret')
+// }
