@@ -1,5 +1,6 @@
 package org.devops.bootcamp.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,7 +24,6 @@ public class Order {
     private double total;
     @NotNull
     private String client;
-
     @ManyToMany
     @JoinTable(name = "products_in_order",
             joinColumns = @JoinColumn(name = "order_id"),

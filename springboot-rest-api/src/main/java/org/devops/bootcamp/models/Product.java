@@ -1,5 +1,6 @@
 package org.devops.bootcamp.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,6 +27,7 @@ public class Product {
     private String description;
     private double price;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "productList")
     private List<Order> orderList = new ArrayList<>();
 

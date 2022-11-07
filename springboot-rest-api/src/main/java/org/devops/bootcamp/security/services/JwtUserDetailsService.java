@@ -22,19 +22,19 @@ public class JwtUserDetailsService implements UserDetailsService {
     UserRepository userRepository;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        org.devops.bootcamp.models.User userSql = userRepository.findByUsername(username);
-        if(userSql != null){
-            return new User(userSql.getUsername(),userSql.getPassword(),new ArrayList<>());
-        }
-        else {
-            throw new UsernameNotFoundException("User not found with username: " + username);
-        }
-//        if ("bootcamp".equals(username)) {
-//            return new User("bootcamp", "$2a$10$ixlPY3AAd4ty1l6E2IsQ9OFZi2ba9ZQE0bP7RFcGIWNhyFrrT3YUi",
-//                    new ArrayList<>());
-//        } else {
+//        org.devops.bootcamp.models.User userSql = userRepository.findByUsername(username);
+//        if(userSql != null){
+//            return new User(userSql.getUsername(),userSql.getPassword(),new ArrayList<>());
+//        }
+//        else {
 //            throw new UsernameNotFoundException("User not found with username: " + username);
 //        }
+        if ("bootcamp".equals(username)) {
+            return new User("bootcamp", "$2a$10$ixlPY3AAd4ty1l6E2IsQ9OFZi2ba9ZQE0bP7RFcGIWNhyFrrT3YUi",
+                    new ArrayList<>());
+        } else {
+            throw new UsernameNotFoundException("User not found with username: " + username);
+        }
     }
 
 }
