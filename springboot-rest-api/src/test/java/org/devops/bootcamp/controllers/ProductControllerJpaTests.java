@@ -18,7 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -35,23 +37,24 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import static org.mockito.Mockito.*;
 
-@WebMvcTest(
+@SpringBootTest
+@AutoConfigureMockMvc(addFilters = false)
+/* @WebMvcTest(
         controllers = ProductControllerJpa.class,
         excludeAutoConfiguration = {
                 UserDetailsServiceAutoConfiguration.class, SecurityAutoConfiguration.class,
                 JwtUserDetailsService.class
         }
 )
-@EnableAutoConfiguration(exclude = SecurityAutoConfiguration.class)
+@EnableAutoConfiguration(exclude = SecurityAutoConfiguration.class) */
 @DisplayName("ProductControllerTests - SpringTest")
 public class ProductControllerJpaTests {
     final String productJsonString = "{\"id\":1,\"name\":\"Oreo\",\"description\":\"cookies\",\"price\":3.5}";
-
-//     @MockBean
-//     private Service<Product> productService;
 
     @MockBean
     private ServiceJpa<Product> productServiceJpa;
@@ -63,10 +66,10 @@ public class ProductControllerJpaTests {
     private IOrderRepository iOrderRepository;
 
     @MockBean
-    private IUserRepository iUserRepository;
+    private OrderControllerJpa orderControllerJpa;
 
     @MockBean
-    private JwtRequestFilter jwtRequestFilter;
+    private ProductControllerJpa productControllerJpa;
 
     @Autowired
     ObjectMapper objectMapper;
@@ -81,67 +84,51 @@ public class ProductControllerJpaTests {
                         Arrays.asList(
                                 new Product("oreo", "cookies", 3.5),
                                 new Product("milk", "drink", 6.5)
-                                // Product.builder().productId(1).name("oreo").description("cookies").price(3.5).build(),
-                                // Product.builder().productId(2).name("milk").description("drink").price(6.5).build()
                         ));
 
         given(this.productServiceJpa.save(any(Product.class)))
                 .willReturn(
                         new Product("oreo", "cookies", 3.5)
-                        // Product.builder().productId(1).name("oreo").description("cookies").price(3.5).build()
                         );
 
         doNothing().when(this.productServiceJpa).deleteById(any(Integer.class));
-        // doNothing().when(this.productService).delete(any(Integer.class));
     }
 
     @Test
-    public void saveProductTestSuccess() throws Exception {
-        /* Product productMock = Product.builder()
-                .productId(1)
-                .name("Oreo")
-                .description("cookies")
-                .price(3.5).build(); */
+    public void listProductTestSuccess() throws Exception {
         Product productMock = new Product("oreo", "cookies", 3.5);
 
-        // productService.insert to respond back with productMock
         Mockito.when(productServiceJpa.save(any(Product.class))).thenReturn(productMock);
-        // Mockito.when(productService.insert(any(Product.class))).thenReturn(productMock);
 
         RequestBuilder requestBuilder = post(
                 "/api/v2/products")
                 .accept(MediaType.APPLICATION_JSON).content(productJsonString)
                 .contentType(MediaType.APPLICATION_JSON);
-        /* RequestBuilder requestBuilder = post(
-                "/api/v1/products")
-                .accept(MediaType.APPLICATION_JSON).content(productJsonString)
-                .contentType(MediaType.APPLICATION_JSON); */
 
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 
         MockHttpServletResponse response = result.getResponse();
 
-        assertEquals(HttpStatus.CREATED.value(), response.getStatus());
+        assertEquals(HttpStatus.OK.value(), response.getStatus());
 
-        assertEquals("http://localhost:8080/api/v2/products", response.getHeader(HttpHeaders.LOCATION));
-        // assertEquals("http://localhost:8080/api/v1/products", response.getHeader(HttpHeaders.LOCATION));
+        // assertEquals("/api/v2/products", response.getHeader(HttpHeaders.LOCATION));
     }
 
     @Test
-    public void testSave() throws Exception {
+    public void saveProductTestSuccess() throws Exception {
 
-        /* this.mockMvc
+        Product productMock = new Product("oreo", "cookies", 3.5);
+        this.mockMvc
                 .perform(
-                        post("/api/v1/products")
+                        post("/api/v2/products")
                                 .content(this.objectMapper.writeValueAsBytes(
-                                        Product.builder()
-                                                .productId(1)
-                                                .name("oreo").description("cookies").price(3.5).build()))
+                                        productMock))
                                 .contentType(MediaType.APPLICATION_JSON)
+                                .characterEncoding("UTF-8")
                 )
-                .andExpect(status().isCreated());
+                .andExpect(status().isOk());
 
-        verify(this.productService, times(1)).insert(any(Product.class));
-        verifyNoMoreInteractions(this.productService); */
+        verify(this.productServiceJpa, times(1)).save(any(Product.class));
+        verifyNoMoreInteractions(this.productServiceJpa);
     }
 }
