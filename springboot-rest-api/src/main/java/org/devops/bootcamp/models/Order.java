@@ -1,17 +1,32 @@
 package org.devops.bootcamp.models;
 
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
+import javax.persistence.*;
 
 @Getter
 @Setter
-@Builder
+@Table(name = "orders")
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Order {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "order_id")
     private int orderId;
+
+    @Column(name = "total")
     private double total;
+
+    @Column(name = "client_id")
     private String client;
-    private List<Product> productList;
+
+    public Order(String client) {
+        this.client = client;
+    }
 }
