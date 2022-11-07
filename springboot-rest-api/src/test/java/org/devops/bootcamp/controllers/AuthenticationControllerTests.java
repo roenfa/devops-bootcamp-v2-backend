@@ -4,11 +4,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.springframework.security.config.http.MatcherType.mvc;
+// import static org.springframework.security.config.http.MatcherType.mvc;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
@@ -19,6 +20,7 @@ public class AuthenticationControllerTests {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @WithMockUser(value = "bootcamp")
     @Test
     public void existentUserCanGetTokenAndAuthentication() throws Exception {
         String username = "bootcamp";
@@ -34,7 +36,8 @@ public class AuthenticationControllerTests {
         response = response.replace("{\"access_token\": \"", "");
         String token = response.replace("\"}", "");
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/products")
+        // mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/products")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v2/products")
                 .header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk());
     }
