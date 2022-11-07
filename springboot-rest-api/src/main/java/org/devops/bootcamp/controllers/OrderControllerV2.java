@@ -20,7 +20,7 @@ public class OrderControllerV2 {
     }
 
     @PostMapping
-    public Order saveProduct(@RequestBody Order order){
+    public Order saveOrder(@RequestBody Order order){
         return orderServiceV2.saveOrder(order);
     }
 
@@ -30,7 +30,7 @@ public class OrderControllerV2 {
     }
 
     @DeleteMapping(path = "/{id}")
-    public String deleteProduct(@PathVariable("id") Integer id){
+    public String deleteOrder(@PathVariable("id") Integer id){
         boolean ok = orderServiceV2.deleteProduct(id);
         if(ok){
             return "Order deleted";
