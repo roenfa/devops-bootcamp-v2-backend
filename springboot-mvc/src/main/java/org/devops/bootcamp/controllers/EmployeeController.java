@@ -1,4 +1,4 @@
-package org.devops.bootcamp.controller;
+package org.devops.bootcamp.controllers;
 
 
 import org.devops.bootcamp.models.Employee;
