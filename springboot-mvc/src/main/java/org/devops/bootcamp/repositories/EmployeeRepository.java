@@ -2,9 +2,11 @@ package org.devops.bootcamp.repositories;
 
 import org.devops.bootcamp.models.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     /* We add a custom method here but do not use it in this example.
      * The method name must follow findBy<column name> pattern, then JpaRepository
