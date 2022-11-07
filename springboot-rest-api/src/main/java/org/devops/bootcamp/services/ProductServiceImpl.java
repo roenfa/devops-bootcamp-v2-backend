@@ -9,33 +9,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 @org.springframework.stereotype.Service
-public class ProductServiceImpl implements Service<Product> {
-//    @Autowired -> @InjectMock
-//    ProductRepository productRepository;
-    private ProductRepository productRepository;
-    public ProductServiceImpl(ProductRepository repository) {
-        this.productRepository = repository;
-    }
+public class ProductServiceImpl implements ProductService {
 
-//    public ProductServiceImpl(ProductRepository productRepository) {
-//        this.productRepository = productRepository;
-//    }
+    private ProductRepository productRepository;
+
+    @Autowired
+    public ProductServiceImpl(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
     @Override
     public List getAll() {
-        return productRepository.getAllProducts();
+        return productRepository.getAll();
     }
 
-//    @Override
-//    public Product getById(int id) {
-//        Product product = null;
-//
-//        if (productRepository.getById(id) != null) {
-//           product = productRepository.getById(id);
-//        }
-//
-//        return product;
-//    }
     @Override
     public Product getById(int id) throws NoSuchElementFoundException {
         Product product = null;
@@ -50,7 +37,7 @@ public class ProductServiceImpl implements Service<Product> {
 
         return product;
     }
-
+    
     @Override
     public Product insert(Product p) {
         this.productRepository.save(p);
@@ -59,10 +46,12 @@ public class ProductServiceImpl implements Service<Product> {
 
     @Override
     public void update(int id, Product p) {
-
+        this.productRepository.save(p);
     }
 
     @Override
     public void delete(int id) {
+        this.productRepository.delete(this.productRepository.getById(id));
     }
+
 }

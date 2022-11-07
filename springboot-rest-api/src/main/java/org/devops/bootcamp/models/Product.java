@@ -1,22 +1,26 @@
 package org.devops.bootcamp.models;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
+import lombok.*;
 
-import javax.validation.constraints.NotBlank;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
-@Getter
-@Setter
+@Data
+@Entity
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Product {
-    private int productId;
-    @NotNull
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer productId;
+
+    @NotEmpty(message = "product need a name, can not be empty")
     private String name;
+
     private String description;
     private double price;
+
 }
 

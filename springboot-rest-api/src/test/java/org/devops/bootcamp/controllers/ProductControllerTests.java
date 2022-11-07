@@ -3,28 +3,24 @@ package org.devops.bootcamp.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.devops.bootcamp.models.Product;
 import org.devops.bootcamp.services.Service;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
-import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Arrays;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -35,12 +31,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import static org.mockito.Mockito.*;
 
-@WebMvcTest(
-        controllers = ProductController.class,
-        excludeAutoConfiguration = {
-                UserDetailsServiceAutoConfiguration.class, SecurityAutoConfiguration.class
-        }
-)
+
+@SpringBootTest
+@RunWith(SpringRunner.class)
+@AutoConfigureMockMvc( addFilters = false )
 public class ProductControllerTests {
     final String productJsonString = "{\"id\":1,\"name\":\"Oreo\",\"description\":\"cookies\",\"price\":3.5}";
 
@@ -71,7 +65,7 @@ public class ProductControllerTests {
     @Test
     public void createProduct() throws Exception {
         Product productMock = Product.builder()
-                .productId(1)
+                .productId(0)
                 .name("Oreo")
                 .description("cookies")
                 .price(3.5).build();
@@ -81,7 +75,8 @@ public class ProductControllerTests {
 
         RequestBuilder requestBuilder = post(
                 "/api/v1/products")
-                .accept(MediaType.APPLICATION_JSON).content(productJsonString)
+                .content(productJsonString)
+                .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON);
 
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
@@ -89,21 +84,22 @@ public class ProductControllerTests {
         MockHttpServletResponse response = result.getResponse();
 
         assertEquals(HttpStatus.CREATED.value(), response.getStatus());
-
-        assertEquals("http://localhost:8080/api/v1/products", response.getHeader(HttpHeaders.LOCATION));
+        assertEquals("/api/v1/products/0", response.getHeader("product"));
     }
 
     @Test
     public void testSave() throws Exception {
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("name", "cheese");
+        requestBody.put("description", "cheddar");
+        requestBody.put("price", 600);
 
         this.mockMvc
                 .perform(
                         post("/api/v1/products")
-                                .content(this.objectMapper.writeValueAsBytes(
-                                        Product.builder()
-                                                .productId(1)
-                                                .name("oreo").description("cookies").price(3.5).build()))
+                                .content(requestBody.toString())
                                 .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isCreated());
 

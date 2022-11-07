@@ -17,9 +17,6 @@ public class ProductController {
     @Autowired
     private Service<Product> productService;
 
-//    public ProductController(Service productService) {
-//        this.productService = productService;
-//    }
 
     @GetMapping
     public List<Product> getAll() {

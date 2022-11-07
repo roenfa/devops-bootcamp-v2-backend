@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 @Service
-public class LoggingServiceImpl implements LoggingService{
+public class LoggingServiceImpl implements LoggingService {
 
     Logger logger = LoggerFactory.getLogger("LoggingServiceImpl");
 
