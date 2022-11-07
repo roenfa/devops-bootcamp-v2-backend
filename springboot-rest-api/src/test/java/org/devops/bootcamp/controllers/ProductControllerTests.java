@@ -2,29 +2,27 @@ package org.devops.bootcamp.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.devops.bootcamp.models.Product;
+import org.devops.bootcamp.services.LoggingService;
 import org.devops.bootcamp.services.Service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
-import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Arrays;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -36,16 +34,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.mockito.Mockito.*;
 
 @WebMvcTest(
-        controllers = ProductController.class,
-        excludeAutoConfiguration = {
-                UserDetailsServiceAutoConfiguration.class, SecurityAutoConfiguration.class
-        }
+        controllers = ProductController.class
 )
+@ContextConfiguration(classes = SpringSecurityWebAuxTestConfig.class)
+@RunWith(SpringRunner.class)
 public class ProductControllerTests {
     final String productJsonString = "{\"id\":1,\"name\":\"Oreo\",\"description\":\"cookies\",\"price\":3.5}";
 
     @MockBean
     private Service<Product> productService;
+
+    @Autowired
+    private LoggingService loggingService;
 
     @Autowired
     ObjectMapper objectMapper;
@@ -94,6 +94,7 @@ public class ProductControllerTests {
     }
 
     @Test
+    @WithUserDetails("admin")
     public void testSave() throws Exception {
 
         this.mockMvc

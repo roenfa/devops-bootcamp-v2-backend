@@ -1,5 +1,6 @@
 package org.devops.bootcamp.controllers;
 
+import org.devops.bootcamp.security.models.JwtRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -16,26 +17,22 @@ public class AuthenticationControllerTests {
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
     @Test
     public void existentUserCanGetTokenAndAuthentication() throws Exception {
-        String username = "bootcamp";
+        String username = "jsdafuanito";
         String password = "password";
 
-        String body = "{\"username\":\"" + username + "\", \"password\":\""+ password + "\"}";
+        JwtRequest jwtRequest = new JwtRequest(username, password);
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/authenticate")
-                .content(body))
-                .andExpect(status().isOk()).andReturn();
+                .content(jwtRequest.toString()))
+                .andExpect(status().isOk())
+                .andReturn();
 
-        String response = result.getResponse().getContentAsString();
-        response = response.replace("{\"access_token\": \"", "");
-        String token = response.replace("\"}", "");
+        String token = result.getResponse().getContentAsString();
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/products")
-                .header("Authorization", "Bearer " + token))
+        mockMvc.perform(MockMvcRequestBuilders.get("/hello")
+                        .header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk());
     }
 }
