@@ -71,7 +71,6 @@ public class OrderControllerJpa {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    // TODO list of products by order id 
     @GetMapping("/{id}/products")
     public ResponseEntity<List<Product>> orderProducts(@PathVariable long id){
         List<Product> products = orderServiceJpa.getProductsFromOrder(id);

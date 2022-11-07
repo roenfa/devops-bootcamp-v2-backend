@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.5.6'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+    id 'com.avast.gradle.docker-compose' version '0.7.1'
 }
 
 group 'org.example'
@@ -11,6 +12,10 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+}
+
+dockerCompose {
+    useComposeFiles = ['src/main/database_helpers/docker-compose.yaml']
 }
 
 repositories {

@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 // Implements from UserDetailsService (is used in order to search the username, password and authorities for a given user)
 // Loads hardcoded username and password
-// TODO: Integrate with sql server manager
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
 

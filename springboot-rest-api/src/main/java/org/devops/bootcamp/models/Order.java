@@ -40,7 +40,7 @@ public class Order {
     @Column(name = "client")
     private String client;
 
-    @JsonIgnore
+    // @JsonIgnore
     @ManyToMany
     @JoinTable(
         name = "order_product",
@@ -64,7 +64,6 @@ public class Order {
         productList.add(p);
     }
 
-    // TODO getting products of order
     public List<Product> getProductsList(){
         return this.productList;
     }
