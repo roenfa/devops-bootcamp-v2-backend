@@ -20,7 +20,6 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
-    /* List added employees. */
     @RequestMapping(value="/listEmployee", method= RequestMethod.GET)
     public String listEmployeeList(Model model) {
         List<Employee> employeeList = this.employeeService.findAllEmployees();
@@ -30,13 +29,11 @@ public class EmployeeController {
         return "listEmployee";
     }
 
-    /* Display add employee form page. */
     @RequestMapping(value="/addEmployeePage", method=RequestMethod.GET)
     public String addEmployeePage() {
         return "addEmployee";
     }
 
-    /* Add user submitted employee info to h2 databae and redirect to list employees page. */
     @RequestMapping(value="/addEmployee", method=RequestMethod.POST)
     public String addEmployee(Employee employee) {
         this.employeeService.saveEmployee(employee);
