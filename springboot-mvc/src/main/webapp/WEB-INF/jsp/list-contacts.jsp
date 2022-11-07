@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <h1>Contact List</h1>
+<div style="text-align: center;">
 <table border="2" width="70%" cellpadding="2">
     <tr>
         <th>Id</th>
@@ -22,5 +23,6 @@
         </tr>
     </c:forEach>
 </table>
+</div>
 <br/>
 <a href="/create-contact">Create Contact</a>
