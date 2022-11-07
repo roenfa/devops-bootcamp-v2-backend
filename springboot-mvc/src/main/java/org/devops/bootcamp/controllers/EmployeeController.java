@@ -4,6 +4,7 @@ package org.devops.bootcamp.controllers;
 import org.devops.bootcamp.constants.ConstantVariable;
 import org.devops.bootcamp.models.Employee;
 import org.devops.bootcamp.repositories.EmployeeRepository;
+import org.devops.bootcamp.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,12 +18,12 @@ import java.util.List;
 public class EmployeeController {
 
     @Autowired
-    private EmployeeRepository employeeRepository;
+    private EmployeeService employeeService;
 
     /* List added employees. */
     @RequestMapping(value="/listEmployee", method= RequestMethod.GET)
     public String listEmployeeList(Model model) {
-        List<Employee> employeeList = this.employeeRepository.findAll();
+        List<Employee> employeeList = this.employeeService.findAllEmployees();
 
         model.addAttribute(ConstantVariable.EMPLOYEE_LIST, employeeList);
 
@@ -38,7 +39,7 @@ public class EmployeeController {
     /* Add user submitted employee info to h2 databae and redirect to list employees page. */
     @RequestMapping(value="/addEmployee", method=RequestMethod.POST)
     public String addEmployee(Employee employee) {
-        employeeRepository.save(employee);
+        this.employeeService.saveEmployee(employee);
         return "redirect:/employee/listEmployee";
     }
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
 <head>
     <meta charset="UTF-8">
     <title>List Employee</title>
@@ -14,19 +15,15 @@
 <table th:if="${ not #lists.isEmpty(employees) }" border=1>
     <tr>
         <td>User Name</td>
-        <td>Password</td>
         <td>Email</td>
-        <td>Title</td>
-        <td>Sex</td>
+        <td>Gender</td>
         <td>Salary</td>
         <td>Age</td>
     </tr>
     <tr th:each="employee : ${employees}">
         <td th:text="${employee.userName}"></td>
-        <td th:text="${employee.password}"></td>
         <td th:text="${employee.email}"></td>
-        <td th:text="${employee.title}"></td>
-        <td th:text="${employee.sex}"></td>
+        <td th:text="${employee.gender}"></td>
         <td th:text="${employee.salary}"></td>
         <td th:text="${employee.age}"></td>
     </tr>

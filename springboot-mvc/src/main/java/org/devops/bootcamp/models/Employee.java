@@ -15,7 +15,7 @@ public class Employee {
 
     /* Identify id as this entity's unique identifier. The id value is auto generated. */
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
     private String userName;

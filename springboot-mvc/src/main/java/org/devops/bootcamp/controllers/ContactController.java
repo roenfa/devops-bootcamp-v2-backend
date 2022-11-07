@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -38,4 +39,11 @@ public class ContactController {
         contactService.saveContact(contact);
         return "redirect:/list-contacts";
     }
+
+    @RequestMapping(value = "/delete-contact/{id}", method = RequestMethod.DELETE)
+    public String deleteContact(@PathVariable("id") int id) {
+        contactService.deleteById(id);
+        return "redirect:/list-contacts";
+    }
+
 }
