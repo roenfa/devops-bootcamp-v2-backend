@@ -9,12 +9,14 @@ import lombok.*;
 
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@JsonIgnoreProperties(value= {"suppliers"})
 @Table(name = "order_product")
+@JsonIgnoreProperties(value= {"suppliers"})
 public class OrderProduct extends AbstractEntity {
+    
     @ManyToOne
     private Product product;
 

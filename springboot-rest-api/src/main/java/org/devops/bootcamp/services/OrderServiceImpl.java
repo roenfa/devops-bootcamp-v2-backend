@@ -4,7 +4,11 @@ import java.util.List;
 import java.util.ArrayList;
 
 import org.devops.bootcamp.models.Order;
+import org.devops.bootcamp.models.OrderProduct;
+import org.devops.bootcamp.models.Product;
 import org.devops.bootcamp.repositories.OrderRepository;
+import org.devops.bootcamp.repositories.ProductRepository;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @org.springframework.stereotype.Service
@@ -12,6 +16,8 @@ public class OrderServiceImpl implements Service<Order> {
     @Autowired
     OrderRepository orderRepository;
 
+    @Autowired
+    ProductRepository productRepository;
 //    public OrderServiceImpl(OrderRepository OrderRepository) {
 //        this.OrderRepository = OrderRepository;
 //    }
@@ -20,7 +26,10 @@ public class OrderServiceImpl implements Service<Order> {
     public List<Order> getAll() {
         var it = orderRepository.findAll();
         var orders = new ArrayList<Order>();
-        it.forEach(e -> orders.add(e));
+        it.forEach(e -> {
+            Hibernate.initialize(e.getProductList());
+            orders.add(e);
+        });
 
         return orders;
     }
@@ -33,6 +42,15 @@ public class OrderServiceImpl implements Service<Order> {
 
     @Override
     public Order insert(Order o) {
+        o.getProductList()
+            .stream()
+            .map(p -> {
+                Product product = productRepository.findById(p.getProduct().getId()).get();
+                OrderProduct orderProduct = new OrderProduct(product, p.getPrice(), p.getAmount());
+                orderProduct.setProduct(product);
+                return orderProduct;
+            });
+
         o.setTotal(
             o.getProductList()
             .stream()

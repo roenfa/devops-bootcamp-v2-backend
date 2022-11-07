@@ -1,6 +1,5 @@
 package org.devops.bootcamp.exceptions;
 
-import lombok.Builder;
 import org.springframework.http.ResponseEntity;
 
 //@Builder

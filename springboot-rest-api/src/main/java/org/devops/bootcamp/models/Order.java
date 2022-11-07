@@ -1,7 +1,6 @@
 package org.devops.bootcamp.models;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.*;
 
@@ -19,9 +18,9 @@ public class Order extends AbstractEntity {
 
     private String client;
 
-    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "order_id")
-    private Set<OrderProduct> productList;
+    private List<OrderProduct> productList;
 
     private Double total;
 }

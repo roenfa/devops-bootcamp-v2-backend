@@ -32,8 +32,8 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<Order> saveorder(@RequestBody Order p) {
-        Order order = orderService.insert(p);
+    public ResponseEntity<Order> saveorder(@RequestBody Order o) {
+        Order order = orderService.insert(o);
         var httpHeaders = new HttpHeaders();
         httpHeaders.add("order", "/api/v1/order/" + order.getId());
         return new ResponseEntity<>(order, httpHeaders, HttpStatus.CREATED);

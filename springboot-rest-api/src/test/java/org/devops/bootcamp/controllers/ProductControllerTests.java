@@ -1,6 +1,8 @@
 package org.devops.bootcamp.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.devops.bootcamp.ApplicationConfig;
 import org.devops.bootcamp.models.Product;
 import org.devops.bootcamp.services.Service;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,12 +13,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -42,7 +47,7 @@ import static org.mockito.Mockito.*;
         }
 )
 public class ProductControllerTests {
-    final String productJsonString = "{\"id\":1,\"name\":\"Oreo\",\"description\":\"cookies\",\"price\":3.5}";
+    final String productJsonString = "{\"name\":\"Oreo\",\"description\":\"cookies\",\"price\":3.5}";
 
     @MockBean
     private Service<Product> productService;
