@@ -11,11 +11,11 @@ public class RestApplication {
 
         SpringApplication.run(RestApplication.class, args);
 
-        Product p = Product.builder()
-                .productId(1)
-                .name("Milk")
-                .description("Normal")
-                .price(6.5).build();
+//        Product p = Product.builder()
+//                .productId(1)
+//                .name("Milk")
+//                .description("Normal")
+//                .price(6.5).build();
 
 //        System.out.println(p.getName() + p.getDescription() + p.getPrice());
 
