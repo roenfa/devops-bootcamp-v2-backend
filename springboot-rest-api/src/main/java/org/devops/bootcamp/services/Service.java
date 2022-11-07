@@ -11,7 +11,7 @@ public interface Service<S>{
 
     S insert(S p);
 
-    void update(int id, S p);
+    S update(int id, S p);
 
     void delete(int id);
 }

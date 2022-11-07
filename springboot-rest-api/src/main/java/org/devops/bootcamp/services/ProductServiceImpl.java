@@ -3,30 +3,23 @@ package org.devops.bootcamp.services;
 
 import org.devops.bootcamp.exceptions.NoSuchElementFoundException;
 import org.devops.bootcamp.models.Product;
-import org.devops.bootcamp.repositories.ProductRepository;
+import org.devops.bootcamp.repositories.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 @org.springframework.stereotype.Service
 public class ProductServiceImpl implements Service<Product> {
-//    @Autowired -> @InjectMock
-//    ProductRepository productRepository;
-    private ProductRepository productRepository;
-    public ProductServiceImpl(ProductRepository repository) {
-        this.productRepository = repository;
-    }
 
-//    public ProductServiceImpl(ProductRepository productRepository) {
-//        this.productRepository = productRepository;
-//    }
+    @Autowired
+    private IProductRepository productRepository;
 
     @Override
     public List getAll() {
-        return productRepository.getAllProducts();
+        return productRepository.findAll();
     }
 
-//    @Override
+    //    @Override
 //    public Product getById(int id) {
 //        Product product = null;
 //
@@ -38,28 +31,18 @@ public class ProductServiceImpl implements Service<Product> {
 //    }
     @Override
     public Product getById(int id) throws NoSuchElementFoundException {
-        Product product = null;
-
-        var messageError = "Product with id = " + id + " not found!!!";
-
-        if (productRepository.getById(id) == null) {
-            throw new NoSuchElementFoundException(messageError);
-        } else {
-            product = productRepository.getById(id);
-        }
-
-        return product;
+        return productRepository.findById(id).orElseThrow(() -> new NoSuchElementFoundException("Product with id = " + id + " not found!!!"));
     }
 
     @Override
     public Product insert(Product p) {
-        this.productRepository.save(p);
+        productRepository.save(p);
         return p;
     }
 
     @Override
-    public void update(int id, Product p) {
-
+    public Product update(int id, Product p) {
+        return null;
     }
 
     @Override
