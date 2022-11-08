@@ -80,10 +80,34 @@ dependencies {
     // https://mvnrepository.com/artifact/com.unboundid/unboundid-ldapsdk
     implementation 'com.unboundid:unboundid-ldapsdk'
 
+    // // https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin
+    // implementation 'org.jacoco:jacoco-maven-plugin:0.8.8'
+}
+
+apply plugin: "jacoco"
+jacoco {
+    toolVersion = "0.8.8"
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.enabled true
+        xml.destination file("${buildDir}/jacoco/reports/jacoco.xml")
+        html.destination file("${buildDir}/jacoco/reports/jacocoHtml")
+    }
 }
 
 test {
     useJUnitPlatform()
+
+    jacoco {
+        destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
+        includes= ["com.arc_e_tect.*"]
+        classDumpDir = file("$buildDir/jacoco/classpathdumps")
+    }
+
+    finalizedBy jacocoTestReport
 }
 
 // tasks.named("bootRun") {
