@@ -2,7 +2,13 @@
 
 ## Database Connection
 
-Gradle now has a build functionality for docker sql Database connection
+<ins>Pre requisits</ins>
+
+Docker daemon needs to be initiated
+
+<ins>Docker Up</ins>
+
+Gradle now has a build functionality for docker Sql Server (_Database connection_)
 
 ```shell
 .\gradlew composeUp --info
